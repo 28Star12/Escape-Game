@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Game Physique-Chimie 2de</title>
+    <style>
+        /* --- STYLE SCI-FI / ESPACE --- */
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-purple: #bc13fe;
+            --bg-color: #050510;
+            --panel-bg: #101020;
+            --text-color: #e0e0ff;
+        }
+
+        body {
+            font-family: 'Rajdhani', 'Segoe UI', sans-serif; /* Police un peu futuriste si dispo */
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 50%, #1a1a3a 0%, #050510 70%);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .interface {
+            background: var(--panel-bg);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-bottom: 2px solid var(--neon-purple);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h2 { color: var(--neon-purple); margin-top: 0; }
+
+        .hidden { display: none !important; }
+
+        /* BOUTONS */
+        .btn {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+            padding: 10px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        /* INPUTS */
+        input[type="number"], input[type="text"] {
+            background: #000;
+            border: 1px solid var(--neon-purple);
+            color: white;
+            padding: 10px;
+            font-size: 1.2em;
+            text-align: center;
+            width: 120px;
+            margin: 10px;
+        }
+
+        /* ZONES DE JEU */
+        .data-panel {
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 3px solid var(--neon-purple);
+            padding: 15px;
+            text-align: left;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 25px;
+        }
+        .success { color: #00ff00; text-shadow: 0 0 5px #00ff00; }
+        .error { color: #ff3333; text-shadow: 0 0 5px #ff3333; }
+
+        /* MINI JEU ATOME */
+        .electron-shell {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .shell-btn {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            border: 2px solid #555;
+            background: #222;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+        .shell-btn.active { border-color: var(--neon-blue); background: #004444; }
+
+    </style>
+</head>
+<body>
+
+<div class="interface">
+
+    <div style="background:#333; height:5px; margin-bottom:20px;">
+        <div id="prog-bar" style="background:var(--neon-purple); width:0%; height:100%; transition:0.5s;"></div>
+    </div>
+
+    <div id="screen-intro">
+        <h1>🚀 Alerte Orbitale</h1>
+        <p>Commandant ! Les moteurs du vaisseau <strong>Physica-II</strong> sont en surchauffe.</p>
+        <p>L'ordinateur de bord demande une vérification manuelle des systèmes physico-chimiques.</p>
+        <p>Niveau requis : <strong>Seconde Générale</strong>.</p>
+        <button class="btn" onclick="nextStep('screen-atom')">Lancer le diagnostic</button>
+    </div>
+
+    <div id="screen-atom" class="hidden">
+        <h2>Système 1 : Carburant Ionique</h2>
+        <div class="data-panel">
+            <p>Analyse de l'élément inconnu X dans le réacteur.</p>
+            <p>Le noyau contient <strong>12 protons</strong>.</p>
+            <p>Cet atome a perdu <strong>2 électrons</strong> pour devenir un ion stable.</p>
+        </div>
+        <p>Question 1 : Quel est le nombre d'électrons restants ?</p>
+        <input type="number" id="input-atom-e" placeholder="?">
+        
+        <p>Question 2 : Quelle est sa configuration électronique (état fondamental) ?</p>
+        <div style="font-size:0.9em; margin-bottom:10px;">Clique sur la bonne config :</div>
+        <button class="btn" style="margin:5px; font-size:0.8em;" onclick="checkAtom(1)">1s² 2s² 2p⁶ 3s²</button>
+        <button class="btn" style="margin:5px; font-size:0.8em;" onclick="checkAtom(2)">1s² 2s² 2p⁶</button>
+        <button class="btn" style="margin:5px; font-size:0.8em;" onclick="checkAtom(3)">1s² 2s² 2p⁶ 3s² 3p²</button>
+        
+        <div id="feed-atom" class="feedback"></div>
+    </div>
+
+    <div id="screen-mole" class="hidden">
+        <h2>Système 2 : Mélangeur de Gaz</h2>
+        <div class="data-panel">
+            <p>Pour refroidir le cœur, il faut injecter du <strong>Méthane (CH₄)</strong>.</p>
+            <p>Données Maires : M(C) = 12 g/mol, M(H) = 1 g/mol.</p>
+            <p>L'ordinateur demande une quantité exacte de <strong>n = 5 mol</strong>.</p>
+        </div>
+        <p>Quelle <strong>masse (m)</strong> de méthane devez-vous prélever ?</p>
+        <p><em>Formule rappel : m = n × M</em></p>
+        <input type="number" id="input-mass" placeholder="en grammes"> g
+        <br>
+        <button class="btn" onclick="checkMole()">Injecter</button>
+        <div id="feed-mole" class="feedback"></div>
+    </div>
+
+    <div id="screen-sound" class="hidden">
+        <h2>Système 3 : Sonar de Navigation</h2>
+        <div class="data-panel">
+            <p>Un signal périodique est détecté sur l'oscilloscope.</p>
+            <p>Une période complète (T) dure <strong>0,004 s</strong> (4 ms).</p>
+        </div>
+        <p>Calculez la <strong>Fréquence (f)</strong> du signal en Hertz.</p>
+        <p><em>Formule rappel : f = 1 / T</em></p>
+        <input type="number" id="input-freq" placeholder="Hz"> Hz
+        <br>
+        <button class="btn" onclick="checkSound()">Calibrer</button>
+        <div id="feed-sound" class="feedback"></div>
+    </div>
+
+    <div id="screen-meca" class="hidden">
+        <h2>Système 4 : Atterrissage</h2>
+        <div class="data-panel">
+            <p>Nous approchons d'une planète inconnue.</p>
+            <p>Masse du drone d'exploration : <strong>m = 100 kg</strong>.</p>
+            <p>Intensité de la pesanteur locale : <strong>g = 4 N/kg</strong>.</p>
+        </div>
+        <p>Quelle est la valeur du <strong>Poids (P)</strong> que subira le drone ?</p>
+        <input type="number" id="input-weight" placeholder="Newtons"> N
+        <br>
+        <button class="btn" onclick="checkMeca()">Calculer</button>
+        <div id="feed-meca" class="feedback"></div>
+    </div>
+
+    <div id="screen-final" class="hidden">
+        <h2>🔓 Déverrouillage manuel</h2>
+        <p>Systèmes stabilisés. Entrez le CODE DE SÉCURITÉ final.</p>
+        <p>Le code est composé des chiffres clés trouvés :</p>
+        <ul style="text-align:left; font-family:'Courier New'; margin:20px auto; width:fit-content;">
+            <li>A = Nombre d'électrons de l'ion Magnésium (Système 1)</li>
+            <li>B = Chiffre des dizaines de la masse de CH4 (Système 2)</li>
+            <li>C = Premier chiffre de la fréquence (Système 3)</li>
+            <li>D = Premier chiffre du poids (Système 4)</li>
+        </ul>
+        <input type="text" id="final-code" placeholder="ABCD" maxlength="4">
+        <br>
+        <button class="btn" onclick="checkFinal()">S'ÉCHAPPER</button>
+        <div id="feed-final" class="feedback"></div>
+    </div>
+
+    <div id="screen-win" class="hidden">
+        <h1>MISSION RÉUSSIE</h1>
+        <p>Le vaisseau est sauf. Excellent travail scientifique.</p>
+        <p style="font-size:3em;">⚛️</p>
+        <button class="btn" onclick="location.reload()">Rejouer</button>
+    </div>
+
+</div>
+
+<script>
+    // --- VARIABLES D'ETAT ---
+    // Les réponses pour construire le code final :
+    // 1. Atome : Mg (Z=12). Ion Mg2+ -> 10 électrons. (CODE A = 10) -> On prendra le nombre total pour simplifier ou juste '10'.
+    //    Correction code final: Le texte demande "Nombre d'électrons", c'est 10.
+    // 2. Mole : M(CH4) = 12 + 4*1 = 16. m = 5 * 16 = 80g. (CODE B = Chiffre des dizaines de 80 = 8).
+    // 3. Son : f = 1 / 0.004 = 250 Hz. (CODE C = Premier chiffre = 2).
+    // 4. Méca : P = 100 * 4 = 400 N. (CODE D = Premier chiffre = 4).
+    // CODE FINAL ATTENDU : 10824 (Ah attention, A peut faire 2 chiffres).
+    // Modifions l'énoncé final pour être clair.
+    
+    // NAVIGATION
+    function nextStep(id) {
+        document.querySelectorAll('.interface > div:not(.hidden)').forEach(d => {
+            if(d.id !== 'prog-bar' && !d.classList.contains('interface')) d.classList.add('hidden');
+        });
+        document.getElementById(id).classList.remove('hidden');
+        document.getElementById('screen-intro').classList.add('hidden');
+    }
+    
+    function updateProg(pct) {
+        document.getElementById('prog-bar').style.width = pct + '%';
+    }
+
+    // 1. ATOME
+    function checkAtom(choice) {
+        const electrons = document.getElementById('input-atom-e').value;
+        const feed = document.getElementById('feed-atom');
+        
+        // Z=12 (Magnesium). Ion Mg2+ (perdu 2) => 10 électrons.
+        // Config de Mg : 1s2 2s2 2p6 3s2. Config de Mg2+ : 1s2 2s2 2p6 (choix 2).
+        
+        if (electrons == 10 && choice == 2) {
+            feed.innerHTML = "<span class='success'>Correct ! C'est l'ion Magnésium (Mg²⁺). Stable comme un gaz noble (Néon).</span>";
+            setTimeout(() => { updateProg(25); nextStep('screen-mole'); }, 2000);
+        } else {
+            feed.innerHTML = "<span class='error'>Erreur. Z=12 veut dire 12 protons. S'il a perdu 2 charges négatives, il reste combien d'électrons ? Et sa couche externe doit être saturée.</span>";
+        }
+    }
+
+    // 2. MOLE
+    function checkMole() {
+        const mass = document.getElementById('input-mass').value;
+        const feed = document.getElementById('feed-mole');
+        
+        // M(CH4) = 16 g/mol. m = 5 * 16 = 80.
+        if (mass == 80) {
+            feed.innerHTML = "<span class='success'>Mélange parfait ! (m = n × M = 5 × 16 = 80g).</span>";
+            setTimeout(() => { updateProg(50); nextStep('screen-sound'); }, 2000);
+        } else {
+            feed.innerHTML = "<span class='error'>Dosage incorrect. Calcule d'abord la Masse Molaire M(CH4) = M(C) + 4×M(H).</span>";
+        }
+    }
+
+    // 3. SON
+    function checkSound() {
+        const freq = document.getElementById('input-freq').value;
+        const feed = document.getElementById('feed-sound');
+        
+        // T = 0.004. f = 1/0.004 = 250.
+        if (freq == 250) {
+            feed.innerHTML = "<span class='success'>Fréquence calibrée à 250 Hz.</span>";
+            setTimeout(() => { updateProg(75); nextStep('screen-meca'); }, 2000);
+        } else {
+            feed.innerHTML = "<span class='error'>Mauvais signal. f = 1 / T. Attention aux unités (secondes).</span>";
+        }
+    }
+
+    // 4. MECA
+    function checkMeca() {
+        const p = document.getElementById('input-weight').value;
+        const feed = document.getElementById('feed-meca');
+        
+        // P = m * g = 100 * 4 = 400.
+        if (p == 400) {
+            feed.innerHTML = "<span class='success'>Trajectoire confirmée. P = m × g.</span>";
+            setTimeout(() => { updateProg(100); nextStep('screen-final'); }, 2000);
+        } else {
+            feed.innerHTML = "<span class='error'>Attention ! Poids (Force en N) ≠ Masse (Quantité en kg). Utilise P = m × g.</span>";
+        }
+    }
+
+    // FINAL
+    function checkFinal() {
+        // Indices récupérés :
+        // A (Nb électrons Mg2+) = 10
+        // B (Dizaines de 80g) = 8
+        // C (1er chiffre de 250 Hz) = 2
+        // D (1er chiffre de 400 N) = 4
+        // Code = 10824
+        
+        const code = document.getElementById('final-code').value;
+        const feed = document.getElementById('feed-final');
+        
+        if (code === "10824") {
+            nextStep('screen-win');
+        } else {
+            feed.innerHTML = "<span class='error'>Code invalide. Vérifie tes indices.</span>";
+        }
+    }
+</script>
+
+</body>
+</html>
