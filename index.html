@@ -3,119 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escape Game SVT - Mission 6ème</title>
+    <title>Escape Game SVT - Bio-Mission</title>
     <style>
-        /* --- STYLE DU JEU --- */
+        /* --- DESIGN GENERAL --- */
         body {
-            font-family: 'Verdana', sans-serif; /* Police plus lisible */
-            background-color: #212121;
-            color: #eceff1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 10px;
+            padding: 20px;
         }
 
         .game-container {
-            background-color: #37474f;
-            border-top: 5px solid #29b6f6; /* Touche de bleu science */
-            border-radius: 8px;
-            padding: 30px;
-            max-width: 650px;
+            background-color: #1e1e1e;
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 700px;
             width: 100%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 0 20px rgba(0, 230, 118, 0.2);
             text-align: center;
         }
 
-        h1 { color: #29b6f6; font-size: 1.8em; margin-bottom: 10px; }
-        h2 { color: #81d4fa; margin-bottom: 20px; font-size: 1.4em; }
-        
-        /* Barre de progression */
-        .progress-bar {
-            height: 5px;
-            background: #546e7a;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: #29b6f6;
-            width: 0%;
-            transition: width 0.5s;
-        }
+        h1 { color: #00e676; margin-top: 0; }
+        h2 { color: #69f0ae; border-bottom: 1px solid #333; padding-bottom: 10px; }
 
-        .hidden { display: none; }
+        .hidden { display: none !important; }
 
+        /* BOUTONS GENERAUX */
         .btn {
-            background-color: #29b6f6;
+            background-color: #00e676;
             color: #000;
-            font-weight: bold;
-            padding: 12px 24px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 4px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1.1em;
+            font-weight: bold;
             margin-top: 20px;
-            transition: transform 0.2s, background 0.2s;
+            transition: all 0.3s;
         }
-        .btn:hover { background-color: #039be5; transform: scale(1.02); }
+        .btn:hover { background-color: #00c853; transform: scale(1.05); }
 
+        /* BOUTONS QCM */
         .btn-choice {
             display: block;
             width: 100%;
             margin: 10px 0;
-            background-color: #455a64;
+            background-color: #2d2d2d;
             color: white;
             padding: 15px;
-            border: 1px solid #607d8b;
+            border: 2px solid #444;
+            border-radius: 8px;
             text-align: left;
-            border-radius: 6px;
+            cursor: pointer;
         }
-        .btn-choice:hover { background-color: #546e7a; border-color: #29b6f6; }
+        .btn-choice:hover { border-color: #00e676; background-color: #333; }
 
-        input[type="text"] {
-            padding: 15px;
-            font-size: 20px;
-            border-radius: 5px;
-            border: 2px solid #29b6f6;
-            background: #263238;
-            color: white;
-            text-align: center;
-            width: 150px;
-            letter-spacing: 5px;
-        }
-
+        /* TEXTE FEEDBACK */
         .feedback {
             margin-top: 15px;
-            font-weight: bold;
-            min-height: 30px;
-            padding: 10px;
-            border-radius: 4px;
-        }
-        .error { background-color: rgba(255, 82, 82, 0.2); color: #ff8a80; }
-        .success { background-color: rgba(102, 187, 106, 0.2); color: #a5d6a7; }
-
-        .clue-box {
-            background: #263238;
-            padding: 15px;
-            border-left: 4px solid #ffa726; /* Orange pour l'indice */
-            text-align: left;
-            margin-bottom: 20px;
-            font-size: 0.95em;
-            line-height: 1.5;
-        }
-        
-        .code-display {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.2em;
-            background: #000;
             padding: 10px;
             border-radius: 5px;
-            color: #00e676;
-            margin: 5px 0;
+            font-weight: bold;
+        }
+        .success { background-color: rgba(0, 230, 118, 0.2); color: #00e676; border: 1px solid #00e676; }
+        .error { background-color: rgba(255, 82, 82, 0.2); color: #ff5252; border: 1px solid #ff5252; }
+
+        /* --- STYLE JEU D'ASSOCIATION --- */
+        .match-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        .match-col { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+        .match-item {
+            background: #2d2d2d;
+            padding: 15px;
+            border: 2px solid #555;
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .match-item.selected { border-color: #ffeb3b; background: #424242; }
+        .match-item.solved { border-color: #00e676; background: rgba(0, 230, 118, 0.1); cursor: default; opacity: 0.6; }
+
+        /* --- STYLE JEU D'ORDRE --- */
+        .order-list { list-style: none; padding: 0; margin: 20px 0; }
+        .order-item {
+            background: #2d2d2d;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #444;
+        }
+        .order-btn {
+            background: #444; color: white; border: none;
+            padding: 5px 10px; cursor: pointer; border-radius: 3px; margin-left: 5px;
+        }
+        .order-btn:hover { background: #00e676; color: black; }
+
+        /* --- INPUT FINAL --- */
+        input[type="text"] {
+            background: #333; border: 2px solid #00e676; color: white;
+            padding: 10px; font-size: 1.2em; text-align: center; border-radius: 5px; width: 150px;
         }
     </style>
 </head>
@@ -123,230 +122,329 @@
 
 <div class="game-container">
     
-    <div class="progress-bar"><div id="prog-fill" class="progress-fill"></div></div>
+    <div style="background:#333; height:10px; border-radius:5px; margin-bottom:20px; overflow:hidden;">
+        <div id="progress-bar" style="background:#00e676; width:0%; height:100%; transition: width 0.5s;"></div>
+    </div>
 
     <div id="screen-intro">
-        <h1>🔬 Mission Biosphère</h1>
-        <p>Bonjour jeune scientifique. Le système de sécurité du laboratoire s'est verrouillé. </p>
-        <p>Pour sortir, tu vas devoir parcourir les <strong>5 grands thèmes</strong> de ton année de 6ème.</p>
-        <p>Chaque bonne réponse te donnera une partie du <strong>CODE FINAL à 4 chiffres</strong>.</p>
-        <button class="btn" onclick="startGame()">Entrer dans le labo</button>
+        <h1>🧬 Bio-Escape : Mission 6ème</h1>
+        <p>Bienvenue au Centre de Recherche.</p>
+        <p>Une fuite de gaz (imaginaire) a verrouillé les portes. Pour sortir, tu dois prouver que tu maîtrises le cycle de la vie.</p>
+        <p>Tu vas affronter <strong>4 épreuves</strong> différentes pour obtenir le code de sortie.</p>
+        <button class="btn" onclick="goToScreen('screen-q1')">COMMENCER</button>
     </div>
 
     <div id="screen-q1" class="hidden">
-        <h2>Niveau 1 : L'infiniment petit</h2>
-        <div class="clue-box">
-            <p>Tu observes une peau d'oignon au microscope. Tu vois des petites "briques" collées les unes aux autres.</p>
-            <p><strong>Question :</strong> Quel est le nom scientifique de ces "briques" qui constituent tous les êtres vivants ?</p>
+        <h2>Épreuve 1 : L'unité du vivant</h2>
+        <p>Tout être vivant est constitué d'au moins une...</p>
+        <button class="btn-choice" onclick="checkQCM(this, true)">Cellule</button>
+        <button class="btn-choice" onclick="checkQCM(this, false)">Molécule</button>
+        <button class="btn-choice" onclick="checkQCM(this, false)">Graine</button>
+        <div class="feedback hidden" id="feed-q1"></div>
+    </div>
+
+    <div id="screen-match" class="hidden">
+        <h2>Épreuve 2 : La Chaîne Alimentaire</h2>
+        <p>Clique sur un élément à gauche, puis sur son rôle à droite pour les associer.</p>
+        
+        <div class="match-container">
+            <div class="match-col" id="col-left">
+                </div>
+            <div class="match-col" id="col-right">
+                </div>
         </div>
-        <button class="btn btn-choice" onclick="checkAnswer(1, 'atome')">A) Des atomes</button>
-        <button class="btn btn-choice" onclick="checkAnswer(1, 'cellule')">B) Des cellules</button>
-        <button class="btn btn-choice" onclick="checkAnswer(1, 'bacterie')">C) Des bactéries</button>
-        <div id="feed1" class="feedback"></div>
+        <div class="feedback hidden" id="feed-match"></div>
+    </div>
+
+    <div id="screen-order" class="hidden">
+        <h2>Épreuve 3 : Transformation Biologique</h2>
+        <p>Remets les étapes de la <strong>fabrication du yaourt</strong> dans le bon ordre chronologique.</p>
+        <p><em>Utilise les flèches pour monter ou descendre les étapes.</em></p>
+        
+        <ul class="order-list" id="order-list">
+            </ul>
+        <button class="btn" onclick="checkOrder()">VALIDER L'ORDRE</button>
+        <div class="feedback hidden" id="feed-order"></div>
     </div>
 
     <div id="screen-q2" class="hidden">
-        <h2>Niveau 2 : Qui est-ce ?</h2>
-        <div class="clue-box">
-            <p>Tu trouves un animal inconnu dans la cour. Il possède :</p>
-            <ul>
-                <li>Des yeux et une bouche</li>
-                <li>Un squelette externe</li>
-                <li>8 pattes articulées</li>
-            </ul>
-            <p><strong>Question :</strong> Dans quel groupe dois-tu le classer ?</p>
-        </div>
-        <button class="btn btn-choice" onclick="checkAnswer(2, 'insecte')">A) Les Insectes</button>
-        <button class="btn btn-choice" onclick="checkAnswer(2, 'arachnide')">B) Les Arachnides</button>
-        <button class="btn btn-choice" onclick="checkAnswer(2, 'myriapode')">C) Les Myriapodes (Mille-pattes)</button>
-        <div id="feed2" class="feedback"></div>
-    </div>
-
-    <div id="screen-q3" class="hidden">
-        <h2>Niveau 3 : Le cycle de la vie</h2>
-        <div class="clue-box">
-            <p>Au printemps, tu plantes des graines de haricot. Pour qu'elles germent, tu as préparé plusieurs pots.</p>
-            <p><strong>Question :</strong> Quelle condition est INUTILE pour la simple germination de la graine (le tout début) ?</p>
-        </div>
-        <button class="btn btn-choice" onclick="checkAnswer(3, 'eau')">A) L'eau</button>
-        <button class="btn btn-choice" onclick="checkAnswer(3, 'chaleur')">B) La chaleur</button>
-        <button class="btn btn-choice" onclick="checkAnswer(3, 'lumiere')">C) La lumière</button>
-        <div id="feed3" class="feedback"></div>
-    </div>
-
-    <div id="screen-q4" class="hidden">
-        <h2>Niveau 4 : Sous nos pieds</h2>
-        <div class="clue-box">
-            <p>Dans la litière du sol, les feuilles mortes disparaissent peu à peu. Elles sont transformées en matière minérale (terreau).</p>
-            <p><strong>Question :</strong> Qui est responsable de cette transformation ?</p>
-        </div>
-        <button class="btn btn-choice" onclick="checkAnswer(4, 'decomposeur')">A) Les décomposeurs</button>
-        <button class="btn btn-choice" onclick="checkAnswer(4, 'producteur')">B) Les producteurs</button>
-        <button class="btn btn-choice" onclick="checkAnswer(4, 'pluie')">C) La pluie uniquement</button>
-        <div id="feed4" class="feedback"></div>
-    </div>
-
-    <div id="screen-q5" class="hidden">
-        <h2>Niveau 5 : Dans la cuisine</h2>
-        <div class="clue-box">
-            <p>Pour fabriquer du pain, le boulanger mélange de la farine, de l'eau, du sel et... de la levure.</p>
-            <p><strong>Question :</strong> Qu'est-ce que la levure ?</p>
-        </div>
-        <button class="btn btn-choice" onclick="checkAnswer(5, 'chimique')">A) Une poudre chimique</button>
-        <button class="btn btn-choice" onclick="checkAnswer(5, 'micro')">B) Un microorganisme vivant</button>
-        <button class="btn btn-choice" onclick="checkAnswer(5, 'graine')">C) Une graine microscopique</button>
-        <div id="feed5" class="feedback"></div>
+        <h2>Épreuve 4 : Reproduction</h2>
+        <p>Pour germer, une graine a absolument besoin de deux choses (en plus de l'air). Lesquelles ?</p>
+        <button class="btn-choice" onclick="checkLastQCM(this, false)">Lumière et Terre</button>
+        <button class="btn-choice" onclick="checkLastQCM(this, true)">Eau et Chaleur</button>
+        <button class="btn-choice" onclick="checkLastQCM(this, false)">Engrais et Soleil</button>
+        <div class="feedback hidden" id="feed-q2"></div>
     </div>
 
     <div id="screen-final" class="hidden">
-        <h2>🔒 Digicode de Sortie</h2>
-        <p>Tu as rassemblé tous les indices.</p>
-        
-        <div style="text-align:left; background:#37474f; padding:10px;">
-            <p>1. Le chiffre de la Cellule : <strong id="code1" style="color:#29b6f6">?</strong></p>
-            <p>2. Le chiffre des Arachnides : <strong id="code2" style="color:#29b6f6">?</strong></p>
-            <p>3. Le chiffre de la Germination : <strong id="code3" style="color:#29b6f6">?</strong></p>
-            <p>4. Le chiffre des Décomposeurs : <strong id="code4" style="color:#29b6f6">?</strong></p>
-        </div>
-
-        <p>Entre le code complet (4 chiffres) :</p>
-        <input type="text" id="finalInput" placeholder="????" maxlength="4">
+        <h2>🚪 La Porte Blindée</h2>
+        <p>Tu as récupéré les indices suivants au cours des épreuves :</p>
+        <ul style="text-align:left; background:#2d2d2d; padding:20px; border-radius:10px;">
+            <li>Chiffre 1 (Cellule) : <strong style="color:#00e676">1</strong></li>
+            <li>Chiffre 2 (Chaîne Alim.) : <strong style="color:#00e676">3</strong> (car 3 maillons)</li>
+            <li>Chiffre 3 (Yaourt) : <strong style="color:#00e676">4</strong> (car 4 étapes)</li>
+            <li>Chiffre 4 (Graine) : <strong style="color:#00e676">2</strong> (car 2 besoins)</li>
+        </ul>
+        <p>Entre le code à 4 chiffres :</p>
+        <input type="text" id="final-code" placeholder="????">
         <br>
-        <button class="btn" onclick="checkFinalCode()">VALIDER</button>
-        <div id="finalFeedback" class="feedback"></div>
+        <button class="btn" onclick="verifyFinal()">OUVRIR</button>
+        <div class="feedback hidden" id="feed-final"></div>
     </div>
 
     <div id="screen-win" class="hidden">
-        <h1>🎉 LIBRE !</h1>
-        <p>Félicitations ! Tu as validé tes acquis de 6ème.</p>
-        <p>Le laboratoire est ouvert.</p>
-        <div style="font-size: 40px; margin: 20px;">🔓</div>
-        <button class="btn" onclick="location.reload()">Recommencer</button>
+        <h1>🏆 VICTOIRE !</h1>
+        <p>Tu es un as de la biologie. La porte s'ouvre !</p>
+        <p>Merci d'avoir joué.</p>
+        <button class="btn" onclick="location.reload()">Rejouer</button>
     </div>
 
 </div>
 
 <script>
-    // --- CONFIGURATION DU JEU ---
-    // Codes à gagner pour chaque question réussie (servent à construire le code final)
-    // Q1 Cellule -> chiffre 1
-    // Q2 Arachnide -> chiffre 8
-    // Q3 Lumière (le piège) -> chiffre 0
-    // Q4 Décomposeurs -> chiffre 5
-    // CODE FINAL = 1805
+    // --- GESTION DE LA NAVIGATION ---
+    let progress = 0;
     
-    let codes = {
-        q1: "?",
-        q2: "?",
-        q3: "?",
-        q4: "?"
-    };
-
-    function updateProgressBar(percent) {
-        document.getElementById('prog-fill').style.width = percent + '%';
-    }
-
-    function startGame() {
-        document.getElementById('screen-intro').classList.add('hidden');
-        document.getElementById('screen-q1').classList.remove('hidden');
-        updateProgressBar(10);
-    }
-
-    // Fonction générique pour vérifier les réponses
-    function checkAnswer(level, answer) {
-        const feedbackDiv = document.getElementById('feed' + level);
-        let isCorrect = false;
-        let msg = "";
-        let codeWon = "";
-
-        // LOGIQUE DES RÉPONSES
-        if (level === 1) { // Cellule
-            if (answer === 'cellule') {
-                isCorrect = true;
-                msg = "Bravo ! Tous les êtres vivants sont faits de cellules. Tu gagnes le chiffre 1.";
-                codes.q1 = "1";
-            } else {
-                msg = "Faux. L'atome est matière non-vivante, la bactérie est une cellule mais l'oignon n'est pas une bactérie.";
-            }
-        } 
-        else if (level === 2) { // Classification
-            if (answer === 'arachnide') {
-                isCorrect = true;
-                msg = "Exact ! 8 pattes = Arachnides (Araignées, Scorpions...). Tu gagnes le chiffre 8.";
-                codes.q2 = "8";
-            } else {
-                msg = "Non. Les insectes ont 6 pattes. Les myriapodes en ont beaucoup plus.";
-            }
-        }
-        else if (level === 3) { // Germination
-            if (answer === 'lumiere') {
-                isCorrect = true;
-                msg = "Bien joué ! La graine a ses propres réserves, elle n'a pas besoin de lumière au début (elle est sous terre !). Tu gagnes le chiffre 0.";
-                codes.q3 = "0";
-            } else {
-                msg = "Erreur ! L'eau et la chaleur sont OBLIGATOIRES pour réveiller la graine.";
-            }
-        }
-        else if (level === 4) { // Sol
-            if (answer === 'decomposeur') {
-                isCorrect = true;
-                msg = "Correct ! Ils recyclent la matière organique en matière minérale. Tu gagnes le chiffre 5.";
-                codes.q4 = "5";
-            } else {
-                msg = "Faux. Les producteurs sont les plantes vertes.";
-            }
-        }
-        else if (level === 5) { // Cuisine (Pas de chiffre, juste l'accès final)
-            if (answer === 'micro') {
-                isCorrect = true;
-                msg = "Excellent ! C'est un champignon microscopique qui transforme les sucres.";
-                // Pas de chiffre ici, mais on déclenche la fin
-            } else {
-                msg = "Non, ce n'est pas chimique. C'est du vivant !";
-            }
-        }
-
-        // AFFICHAGE DU RÉSULTAT
-        if (isCorrect) {
-            feedbackDiv.innerHTML = `<div class='success'>${msg}</div>`;
-            // Attendre 2 secondes puis passer à la suite
-            setTimeout(() => {
-                document.getElementById('screen-q' + level).classList.add('hidden');
-                
-                if (level < 5) {
-                    document.getElementById('screen-q' + (level + 1)).classList.remove('hidden');
-                    updateProgressBar(level * 20);
-                } else {
-                    // Aller à l'écran final
-                    showFinalScreen();
-                }
-            }, 2500);
-        } else {
-            feedbackDiv.innerHTML = `<div class='error'>${msg}</div>`;
-        }
-    }
-
-    function showFinalScreen() {
-        document.getElementById('screen-final').classList.remove('hidden');
-        updateProgressBar(100);
+    function goToScreen(id) {
+        // Masquer tous les écrans
+        document.querySelectorAll('.game-container > div').forEach(el => el.classList.add('hidden'));
+        document.querySelector('.game-container > .progress-bar')?.classList.remove('hidden'); // Garder la barre
         
-        // Remplir les indices
-        document.getElementById('code1').innerText = codes.q1;
-        document.getElementById('code2').innerText = codes.q2;
-        document.getElementById('code3').innerText = codes.q3;
-        document.getElementById('code4').innerText = codes.q4;
+        // Afficher l'écran cible
+        document.getElementById(id).classList.remove('hidden');
+        
+        // Initialiser les mini-jeux si besoin
+        if(id === 'screen-match') initMatchingGame();
+        if(id === 'screen-order') initOrderGame();
     }
 
-    function checkFinalCode() {
-        const input = document.getElementById('finalInput').value;
-        // Le code est 1805
-        if (input === "1805") {
-            document.getElementById('screen-final').classList.add('hidden');
-            document.getElementById('screen-win').classList.remove('hidden');
+    function updateProgress(val) {
+        progress += val;
+        document.getElementById('progress-bar').style.width = progress + "%";
+    }
+
+    // --- EPREUVE 1 : QCM SIMPLE ---
+    function checkQCM(btn, isCorrect) {
+        let feed = document.getElementById('feed-q1');
+        feed.classList.remove('hidden');
+        if(isCorrect) {
+            feed.innerHTML = "Correct ! La cellule est l'unité du vivant.";
+            feed.className = "feedback success";
+            setTimeout(() => { 
+                updateProgress(25);
+                goToScreen('screen-match'); 
+            }, 1500);
         } else {
-            document.getElementById('finalFeedback').innerHTML = "<div class='error'>Code Incorrect. Regarde bien les indices !</div>";
+            feed.innerHTML = "Faux. Essaie encore !";
+            feed.className = "feedback error";
         }
     }
+
+    // --- EPREUVE 2 : JEU D'ASSOCIATION (MATCHING) ---
+    // Données : Gauche (Item) -> Droite (Catégorie)
+    const pairsData = [
+        { id: 1, left: "Herbe", right: "Producteur", matchId: "A" },
+        { id: 2, left: "Lapin", right: "Phytophage (Mangeur de plantes)", matchId: "B" },
+        { id: 3, left: "Renard", right: "Zoophage (Mangeur d'animaux)", matchId: "C" }
+    ];
+
+    let selectedLeft = null;
+    let selectedRight = null;
+    let solvedCount = 0;
+
+    function initMatchingGame() {
+        const leftCol = document.getElementById('col-left');
+        const rightCol = document.getElementById('col-right');
+        leftCol.innerHTML = ""; rightCol.innerHTML = "";
+
+        // Mélanger pour que ce ne soit pas en face
+        let leftItems = [...pairsData].sort(() => Math.random() - 0.5);
+        let rightItems = [...pairsData].sort(() => Math.random() - 0.5);
+
+        leftItems.forEach(item => {
+            let div = document.createElement('div');
+            div.className = 'match-item';
+            div.innerText = item.left;
+            div.dataset.match = item.matchId;
+            div.dataset.side = 'left';
+            div.onclick = (e) => handleMatchClick(e.target);
+            leftCol.appendChild(div);
+        });
+
+        rightItems.forEach(item => {
+            let div = document.createElement('div');
+            div.className = 'match-item';
+            div.innerText = item.right;
+            div.dataset.match = item.matchId;
+            div.dataset.side = 'right';
+            div.onclick = (e) => handleMatchClick(e.target);
+            rightCol.appendChild(div);
+        });
+    }
+
+    function handleMatchClick(el) {
+        if(el.classList.contains('solved')) return;
+
+        // Gestion de la sélection visuelle
+        const side = el.dataset.side;
+        
+        if (side === 'left') {
+            if (selectedLeft) selectedLeft.classList.remove('selected');
+            selectedLeft = el;
+        } else {
+            if (selectedRight) selectedRight.classList.remove('selected');
+            selectedRight = el;
+        }
+        el.classList.add('selected');
+
+        // Vérification si deux items sont sélectionnés
+        if (selectedLeft && selectedRight) {
+            checkMatchPair();
+        }
+    }
+
+    function checkMatchPair() {
+        if (selectedLeft.dataset.match === selectedRight.dataset.match) {
+            // Victoire pour cette paire
+            selectedLeft.classList.add('solved');
+            selectedRight.classList.add('solved');
+            selectedLeft.classList.remove('selected');
+            selectedRight.classList.remove('selected');
+            selectedLeft = null;
+            selectedRight = null;
+            solvedCount++;
+
+            if(solvedCount === pairsData.length) {
+                document.getElementById('feed-match').classList.remove('hidden');
+                document.getElementById('feed-match').innerText = "Bravo ! Chaîne alimentaire rétablie.";
+                document.getElementById('feed-match').className = "feedback success";
+                setTimeout(() => {
+                    updateProgress(25);
+                    goToScreen('screen-order');
+                }, 1500);
+            }
+        } else {
+            // Erreur
+            document.getElementById('feed-match').classList.remove('hidden');
+            document.getElementById('feed-match').innerText = "Mauvaise association !";
+            document.getElementById('feed-match').className = "feedback error";
+            
+            setTimeout(() => {
+                selectedLeft.classList.remove('selected');
+                selectedRight.classList.remove('selected');
+                selectedLeft = null;
+                selectedRight = null;
+                document.getElementById('feed-match').classList.add('hidden');
+            }, 1000);
+        }
+    }
+
+    // --- EPREUVE 3 : REMISE EN ORDRE (YAOURT) ---
+    // Ordre correct : Lait -> Chauffage -> Ferments -> Étuve
+    let steps = [
+        { id: 1, text: "1. On fait chauffer le lait (Pasteurisation)" },
+        { id: 3, text: "3. On ajoute les ferments (bactéries)" },
+        { id: 4, text: "4. On met au chaud dans une étuve" },
+        { id: 2, text: "2. On laisse refroidir le lait" }
+    ];
+    // Mélange initial pour le jeu
+    let currentOrder = [...steps].sort(() => Math.random() - 0.5);
+
+    function initOrderGame() {
+        renderOrderList();
+    }
+
+    function renderOrderList() {
+        const list = document.getElementById('order-list');
+        list.innerHTML = "";
+        
+        currentOrder.forEach((step, index) => {
+            let li = document.createElement('li');
+            li.className = 'order-item';
+            li.innerHTML = `
+                <span>${step.text}</span>
+                <div>
+                    <button class="order-btn" onclick="moveItem(${index}, -1)">▲</button>
+                    <button class="order-btn" onclick="moveItem(${index}, 1)">▼</button>
+                </div>
+            `;
+            list.appendChild(li);
+        });
+    }
+
+    function moveItem(index, direction) {
+        const newIndex = index + direction;
+        if (newIndex < 0 || newIndex >= currentOrder.length) return; // Hors limites
+
+        // Échange
+        const temp = currentOrder[index];
+        currentOrder[index] = currentOrder[newIndex];
+        currentOrder[newIndex] = temp;
+        
+        renderOrderList();
+    }
+
+    function checkOrder() {
+        // L'ordre correct attendu est id: 1, 2, 3, 4
+        // Note: J'ai mis les numéros dans le texte pour aider les élèves, 
+        // ils doivent juste les mettre en ordre 1->2->3->4.
+        
+        let isCorrect = true;
+        // On vérifie si l'ordre des IDs est croissant ou correspond à une logique
+        // Ici on simplifie : le texte contient "1.", "2." etc.
+        
+        for(let i=0; i < currentOrder.length; i++) {
+            if (!currentOrder[i].text.startsWith((i+1) + ".")) {
+                isCorrect = false;
+            }
+        }
+
+        let feed = document.getElementById('feed-order');
+        feed.classList.remove('hidden');
+        
+        if(isCorrect) {
+            feed.innerHTML = "Parfait ! C'est la bonne recette.";
+            feed.className = "feedback success";
+            setTimeout(() => {
+                updateProgress(25);
+                goToScreen('screen-q2');
+            }, 1500);
+        } else {
+            feed.innerHTML = "L'ordre n'est pas bon. Regarde les numéros ou la logique !";
+            feed.className = "feedback error";
+        }
+    }
+
+    // --- EPREUVE 4 : DERNIER QCM ---
+    function checkLastQCM(btn, isCorrect) {
+        let feed = document.getElementById('feed-q2');
+        feed.classList.remove('hidden');
+        if(isCorrect) {
+            feed.innerHTML = "Exact ! L'eau et la chaleur réveillent la graine.";
+            feed.className = "feedback success";
+            setTimeout(() => { 
+                updateProgress(25);
+                goToScreen('screen-final'); 
+            }, 1500);
+        } else {
+            feed.innerHTML = "Non. La lumière sert plus tard (photosynthèse). Au début, la graine est sous terre !";
+            feed.className = "feedback error";
+        }
+    }
+
+    // --- FINAL ---
+    function verifyFinal() {
+        const val = document.getElementById('final-code').value;
+        if(val === "1342") {
+            goToScreen('screen-win');
+        } else {
+            let feed = document.getElementById('feed-final');
+            feed.classList.remove('hidden');
+            feed.className = "feedback error";
+            feed.innerText = "Code incorrect. Vérifie les indices au dessus.";
+        }
+    }
+
 </script>
 
 </body>
