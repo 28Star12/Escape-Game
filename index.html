@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail des Sciences - Escape Games</title>
+    <style>
+        /* --- STYLE GÉNÉRAL (Dark Mode) --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background-image: radial-gradient(circle at center, #1e1e2f 0%, #000000 100%);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        /* --- CONTENEUR DES CARTES --- */
+        .portal-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap; /* Pour s'adapter aux mobiles */
+            justify-content: center;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        /* --- CARTES DE NIVEAU --- */
+        .level-card {
+            background: #1e1e1e;
+            border-radius: 15px;
+            width: 300px;
+            padding: 30px;
+            text-align: center;
+            text-decoration: none; /* Enlève le souligné du lien */
+            color: white;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 2px solid transparent;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card:hover {
+            transform: translateY(-10px); /* Lève la carte */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        /* --- STYLE SPÉCIFIQUE 6ème (Vert Bio) --- */
+        .card-6e {
+            border-color: #4CAF50;
+        }
+        .card-6e:hover {
+            background: linear-gradient(145deg, #1e1e1e, #1b3320);
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+        }
+        .card-6e h2 { color: #81C784; }
+
+        /* --- STYLE SPÉCIFIQUE 2de (Bleu Science/Futur) --- */
+        .card-2de {
+            border-color: #00bcd4;
+        }
+        .card-2de:hover {
+            background: linear-gradient(145deg, #1e1e1e, #162830);
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.4);
+        }
+        .card-2de h2 { color: #4DD0E1; }
+
+        /* --- CONTENU INTERNE --- */
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+
+        p {
+            color: #aaa;
+            line-height: 1.5;
+        }
+
+        .btn-start {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            background: rgba(255,255,255,0.1);
+            transition: background 0.3s;
+        }
+
+        .level-card:hover .btn-start {
+            background: white;
+            color: black;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Centre de Simulation Scientifique</h1>
+
+    <div class="portal-container">
+        
+        <a href="sixieme.html" class="level-card card-6e">
+            <span class="icon">🌿</span>
+            <h2>Niveau 6ème</h2>
+            <p><strong>Thème :</strong> SVT & Biologie</p>
+            <p>Explore le laboratoire, découvre la cellule, la classification et le cycle de la vie.</p>
+            <div class="btn-start">LANCER LA MISSION</div>
+        </a>
+
+        <a href="seconde.html" class="level-card card-2de">
+            <span class="icon">⚛️</span>
+            <h2>Niveau 2de</h2>
+            <p><strong>Thème :</strong> SVT ou Physique-Chimie</p>
+            <p>Plonge dans l'ADN, l'atome et les forces pour sauver la station orbitale.</p>
+            <div class="btn-start">LANCER LA MISSION</div>
+        </a>
+
+    </div>
+
+    <footer style="margin-top: 50px; color: #555; font-size: 0.8rem;">
+        &copy; Laboratoire des Sciences - Accès Élèves
+    </footer>
+
+</body>
+</html>
